@@ -8,7 +8,7 @@ from datetime import datetime
 from func_aux import key_from_value, monthToNumber
 from gettext import gettext as _
 import gettext
-from libyaml import LibYaml
+from config import Config
 
 
 class Stats(QWidget):
@@ -21,7 +21,7 @@ class Stats(QWidget):
 		self.mainWindows = mainWindows
 		self.mainWindows.setWindowTitle(_("Stats") + " | Betcon v" + mainWindows.version)
 
-		self.coin = LibYaml().interface["coin"]
+		self.coin = Config.value("interface/coin", type=str)
 		self.translate()
 
 		self.initData()

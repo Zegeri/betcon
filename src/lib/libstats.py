@@ -2,10 +2,10 @@ from bbdd import Bbdd
 from bookie import Bookie
 from gettext import gettext as _
 import gettext
-from libyaml import LibYaml
+from config import Config
 
 class LibStats:
-	coin = LibYaml().interface["coin"]
+	coin = Config.value("interface/coin", type=str)
 
 	@staticmethod
 	def getYears():

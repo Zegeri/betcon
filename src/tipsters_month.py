@@ -9,7 +9,7 @@ from bbdd import Bbdd
 from func_aux import numberToMonth
 from gettext import gettext as _
 import gettext
-from libyaml import LibYaml
+from config import Config
 
 
 class TipstersMonth(QWidget):
@@ -25,7 +25,7 @@ class TipstersMonth(QWidget):
 		self.treeMain.header().hideSection(0)
 		self.treeConjunta.header().hideSection(0)
 
-		self.coin = LibYaml().interface["coin"]
+		self.coin = Setting.value("interface/coin", type=str)
 
 		self.translate()
 		self.initTree()

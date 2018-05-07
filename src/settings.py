@@ -5,7 +5,7 @@ from PyQt5 import uic
 directory = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0]))
 sys.path.append(directory + "/lib")
 from bbdd import Bbdd
-from libyaml import LibYaml
+from config import Config
 from bets import Bets
 from bookie import Bookie
 from gettext import gettext as _
@@ -27,18 +27,17 @@ class Settings(QWidget):
 		self.btnAccept.clicked.connect(self.accept)
 		self.btnCancel.clicked.connect(self.cancel)
 
-		self.config = LibYaml()
-		self.txtPercentage.setValue(float(self.config.stake["percentage"]))
-		self.cmbOne.setCurrentIndex(self.config.stake["type"])
-		self.txtStake.setValue(float(self.config.stake["stake"]))
-		if self.config.stake["type"] == 0:
+		self.txtPercentage.setValue(Config.value("stake/percentage", float))
+		self.cmbOne.setCurrentIndex(Config.value("stake/type",int))
+		self.txtStake.setValue(Config.value("stake/stake", float))
+		if Config.value("stake/type", int) == 0:
 			self.txtStake.setEnabled(False)
 
 		self.cmbOne.activated.connect(self.updateOne)
 		self.btnCalc.clicked.connect(self.calcBank)
 
-		self.txtCoin.setText(self.config.interface["coin"])
-		if self.config.interface['bookieCountry'] == 'Y':
+		self.txtCoin.setText(Config.value("interface/coin",str))
+		if Config.value("interface/bookieCountry",str) == 'Y':
 			self.chkCountryYes.setChecked(True)
 		else:
 			self.chkCountryNo.setChecked(True)
@@ -96,14 +95,14 @@ class Settings(QWidget):
 
 	def accept(self):
 		percentage = self.txtPercentage.text()[:-1]
-		self.config.stake["percentage"] = float(percentage)
+		Config.setValue("stake/percentage", float(percentage))
 
-		self.config.stake["type"] = self.cmbOne.currentIndex()
+		Config.setValue("stake/type", self.cmbOne.currentIndex())
 
 		stake = self.txtStake.text()[:-1]
-		self.config.stake["stake"] = float(stake)
-		self.config.interface['coin'] = self.txtCoin.text()
-		self.config.interface['bookieCountry'] = 'Y' if self.chkCountryYes.isChecked() else 'N'
-		self.config.save()
+		Config.setValue("stake/stake", float(stake))
+		Config.setValue("interface/coin", self.txtCoin.text())
+		Config.setValue("interface/bookieCountry", 'Y' if self.chkCountryYes.isChecked() else 'N')
+		Config.sync()
 		self.close()
 

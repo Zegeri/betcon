@@ -9,7 +9,7 @@ from datetime import datetime
 from PyQt5.QtCore import QDate
 from gettext import gettext as _
 import gettext
-from libyaml import LibYaml
+from config import Config
 
 class NewBank(QWidget):
 	def __init__(self, mainWindows):
@@ -23,7 +23,7 @@ class NewBank(QWidget):
 		self.btnCancel.clicked.connect(self.cancel)
 		self.mainWindows.setWindowTitle(_("New Movement") + " | Betcon v" + mainWindows.version)
 
-		self.coin = LibYaml().interface["coin"]
+		self.coin = Config.value("interface/coin", type=str)
 		self.initData()
 		self.translate()
 

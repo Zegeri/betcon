@@ -9,7 +9,7 @@ from bets import Bets
 
 from bbdd import Bbdd
 from bookie import Bookie
-from libyaml import LibYaml
+from config import Config
 from gettext import gettext as _
 import gettext
 
@@ -109,7 +109,7 @@ class NewBet(QWidget):
 			name = i[1]
 			country = i[2]
 
-			if LibYaml().interface['bookieCountry'] == 'Y':
+			if Config.value('interface/bookieCountry', type=str) == 'Y':
 				name += ' (' + country + ')'
 
 			self.cmbBookie.addItem(name)
@@ -566,8 +566,7 @@ class NewBet(QWidget):
 			self.btnAccept.setDisabled(False)
 
 	def calcStake(self):
-		self.config = LibYaml()
-		if self.config.stake["type"] == 0:
+		if Config.value("stake/type", type=int) == 0:
 			bd = Bbdd()
 			bookies = Bookie.sumAll()
 			bonus = Bookie.sumBonus()
@@ -585,9 +584,9 @@ class NewBet(QWidget):
 			skrill = skrill[0][0]
 
 			total = "{0:.2f}".format(cc + paypal + skrill + bonus + bookies)
-			total = float(total) * (self.config.stake["percentage"] * 0.01)
+			total = float(total) * (Config.value("stake/percentage", type=int) * 0.01)
 			self.txtOne.setValue(float(total))
 		else:
-			self.txtOne.setValue(self.config.stake["stake"])
+			self.txtOne.setValue(Config.value("stake/stake", type=int))
 
 

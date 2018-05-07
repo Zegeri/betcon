@@ -9,7 +9,7 @@ from bbdd import Bbdd
 from func_aux import numberToResult, paint_row, monthToNumber
 from gettext import gettext as _
 import gettext
-from libyaml import LibYaml
+from config import Config
 from os.path import expanduser
 from libstats import LibStats
 
@@ -32,7 +32,7 @@ class Bets(QWidget):
 		self.lblYear.setText(_("Year"))
 		self.lblMonth.setText(_("Month"))
 
-		self.coin = LibYaml().interface["coin"]
+		self.coin = Config.value("interface/coin", type=str)
 		self.treeMain.header().hideSection(1)
 		try:
 			self.initData()

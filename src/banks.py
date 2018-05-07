@@ -8,7 +8,7 @@ from bookie import Bookie
 from datetime import datetime, date
 from gettext import gettext as _
 import gettext
-from libyaml import LibYaml
+from config import Config
 
 
 
@@ -25,7 +25,7 @@ class Banks(QWidget):
         self.mainWindows.setWindowTitle("Bank | Betcon v" + mainWindows.version)
         self.treeMovement.itemSelectionChanged.connect(self.changeItem)
 
-        self.coin = LibYaml().interface["coin"]
+        self.coin = Config.value("interface/coin",type=str)
 
         self.initData()
         self.initTree()

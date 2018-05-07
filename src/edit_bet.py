@@ -12,7 +12,7 @@ from func_aux import str_to_bool, key_from_value
 from gettext import gettext as _
 import gettext
 from new_bet import NewBet
-from libyaml import LibYaml
+from config import Config
 
 
 class EditBet(QWidget):
@@ -85,7 +85,7 @@ class EditBet(QWidget):
 			name = i[1]
 			country = i[2]
 
-			if LibYaml().interface['bookieCountry'] == 'Y':
+			if Config.value('interface/bookieCountry', type=str) == 'Y':
 				name += ' (' + country + ')'
 
 			self.cmbBookie.addItem(name)

@@ -7,7 +7,7 @@ sys.path.append(directory + "/lib")
 from bbdd import Bbdd
 from gettext import gettext as _
 import gettext
-from libyaml import LibYaml
+from config import Config
 from func_aux import paint_row
 
 
@@ -24,7 +24,7 @@ class Tipsters(QWidget):
         self.mainWindows.setWindowTitle(_("Tipsters") + " | Betcon v" + mainWindows.version)
         self.treeMain.header().hideSection(1)
 
-        self.coin = LibYaml().interface["coin"]
+        self.coin = Config.value("interface/coin", type=str)
 
         self.translate()
         self.initTree()

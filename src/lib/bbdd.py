@@ -4,7 +4,7 @@ from decimal import Decimal
 
 
 class Bbdd:
-	directory = expanduser("~") + "/.betcon/"
+	directory = expanduser("~") + "/.config/betcon/"
 	name = "betcon.sqlite3"
 
 	def __init__(self):

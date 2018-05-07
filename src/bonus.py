@@ -7,7 +7,7 @@ from bbdd import Bbdd
 from func_aux import str_to_bool
 from gettext import gettext as _
 import gettext
-from libyaml import LibYaml
+from config import Config
 
 
 class Bonus(QWidget):
@@ -23,7 +23,7 @@ class Bonus(QWidget):
 		self.mainWindows.setWindowTitle(_("Bonus") + " | Betcon v" + mainWindows.version)
 		self.treeMain.header().hideSection(1)
 
-		self.coin = LibYaml().interface["coin"]
+		self.coin = Config.value("interface/coin", type=str)
 		self.initTree()
 
 		self.treeMain.itemSelectionChanged.connect(self.changeItem)

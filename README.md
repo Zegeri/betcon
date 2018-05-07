@@ -29,7 +29,6 @@ Antes de instalar, asegúrate de tener instaladas las dependencias:
 * PyQt5
 * SQLite3
 * [Pyexcel-ods]('https://github.com/pyexcel/pyexcel-ods')
-* PyYAML
 * Pillow
 
 Para instalar:
