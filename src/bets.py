@@ -45,15 +45,15 @@ class Bets(QWidget):
 		self.cmbMonth.activated.connect(self.initTree)
 		self.treeMain.header().setContextMenuPolicy(Qt.CustomContextMenu)
 		self.treeMain.header().customContextMenuRequested.connect(self.columnSelection)
-
+		column_state = Config.value("betsColumnState", None)
+		if column_state is not None:
+			self.treeMain.header().restoreState(column_state)
+		# TODO: Find a better signal to saveState at exit (closeEvent?)
+		self.treeMain.header().geometriesChanged.connect(self.saveState)
 		self.itemSelected = -1
 		self.indexSelected = -1
 
-
-
 		self.treeMain.setHeaderLabels(header)
-
-
 
 	def initData(self):
 		self.years, self.months = LibStats.getYears()
@@ -159,6 +159,10 @@ class Bets(QWidget):
 			bd.deleteWhere("combined", "bet=" + str(self.itemSelected))
 			self.mainWindows.setCentralWidget(Bets(self.mainWindows))
 			self.mainWindows.enableTools()
+
+	def saveState(self):
+		state = self.treeMain.header().saveState()
+		Config.setValue("betsColumnState", state)
 
 	def getMonths(self, year):
 		sMonths = []
