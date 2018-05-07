@@ -1,5 +1,5 @@
 import sys, os, inspect
-from PyQt5.QtWidgets import QWidget, QTreeWidgetItem, QMessageBox, QTreeWidget
+from PyQt5.QtWidgets import QWidget, QTreeWidgetItem, QMessageBox, QTreeWidget, QMenu
 from PyQt5.QtGui import QBrush, QPixmap, QFont
 from PyQt5.QtCore import Qt, QStringListModel
 from PyQt5 import uic
@@ -43,6 +43,8 @@ class Bets(QWidget):
 		self.mainWindows.aRemove.triggered.connect(self.deleteItem)
 		self.cmbYear.activated.connect(self.updateMonths)
 		self.cmbMonth.activated.connect(self.initTree)
+		self.treeMain.header().setContextMenuPolicy(Qt.CustomContextMenu)
+		self.treeMain.header().customContextMenuRequested.connect(self.columnSelection)
 
 		self.itemSelected = -1
 		self.indexSelected = -1
@@ -164,7 +166,15 @@ class Bets(QWidget):
 			sMonths.append(self.months[i])
 		return sMonths
 
-
-
-
+	def columnSelection(self, position):
+		menu = QMenu()
+		viewColumns = []
+		for i in range(2,self.treeMain.columnCount()):
+			viewColumns.append(menu.addAction(self.treeMain.headerItem().text(i)))
+			viewColumns[i-2].setCheckable(True)
+			viewColumns[i-2].setChecked(not self.treeMain.isColumnHidden(i))
+		action = menu.exec_(self.mapToGlobal(position))
+		if action is not None:
+			column = viewColumns.index(action)
+			self.treeMain.setColumnHidden(column+2, not self.treeMain.isColumnHidden(column+2))
 
