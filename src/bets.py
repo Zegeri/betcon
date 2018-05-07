@@ -50,6 +50,7 @@ class Bets(QWidget):
 			self.treeMain.header().restoreState(column_state)
 		# TODO: Find a better signal to saveState at exit (closeEvent?)
 		self.treeMain.header().geometriesChanged.connect(self.saveState)
+		self.treeMain.itemDoubleClicked.connect(self.editItem)
 		self.itemSelected = -1
 		self.indexSelected = -1
 
