@@ -1,11 +1,10 @@
 import sys, sqlite3, os, inspect, codecs
-from os.path import expanduser
+from config import Config
 from decimal import Decimal
 
 
 class Bbdd:
-	directory = expanduser("~") + "/.config/betcon/"
-	name = "betcon.sqlite3"
+	bdPath = Config.value("databasePath", type=str)
 
 	def __init__(self):
 		exist = False
@@ -13,10 +12,11 @@ class Bbdd:
 			exist = True
 		else:
 			self.directoryFull = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile(inspect.currentframe()))[0]))
-			if not os.path.exists(self.directory):
-				os.makedirs(self.directory)
+			if not os.path.exists(os.path.dirname(self.bdPath)):
+				print("Creating folder " + os.path.dirname(self.bdPath))
+				os.makedirs(os.path.dirname(self.bdPath))
 
-		self.bd = sqlite3.connect(self.directory + self.name)
+		self.bd = sqlite3.connect(self.bdPath)
 		self.cursor = self.bd.cursor()
 
 		if not exist:
@@ -157,7 +157,7 @@ class Bbdd:
 			return data[0]
 
 	def isExist(self):
-		if os.path.isfile(self.directory + self.name):
+		if os.path.isfile(self.bdPath):
 			return True
 		else:
 			return False

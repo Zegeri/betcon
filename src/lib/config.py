@@ -1,10 +1,11 @@
 from PyQt5.QtCore import QSettings
-
+from os.path import expanduser
 
 class Config:
 	config = QSettings("Betcon")
 	default_values = {'stake/percentage': 1.0, 'stake/stake': 0,'stake/type': 1, \
-					'interface/coin': '€', 'interface/bookieCountry': 'N'}
+					'interface/coin': '€', 'interface/bookieCountry': 'N', \
+					'databasePath': expanduser("~") + "/.betcon/betcon.sqlite3"}
 
 	@classmethod
 	def value(self, key, type):
